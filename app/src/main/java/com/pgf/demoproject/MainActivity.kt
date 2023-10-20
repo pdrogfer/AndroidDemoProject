@@ -21,23 +21,17 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pgf.demoproject.ui.theme.DemoProjectTheme
 
 class MainActivity : ComponentActivity() {
-
-    private val mockRepositories = List(20) { i ->
-        Repository(
-            name = "Repository $i",
-            description = "Description $i",
-            stars = i * 10,
-            forks = i * 5
-        )
-    }
 
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @OptIn(ExperimentalMaterial3Api::class)
@@ -58,7 +52,7 @@ class MainActivity : ComponentActivity() {
                             Text(text = "Repositories")
                         })
                     }) {
-                        Repositories(repos = mockRepositories)
+                        RepositoriesContainer()
                     }
                 }
             }
@@ -67,18 +61,26 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Repositories(repos: List<Repository>) {
+fun RepositoriesContainer(mainViewModel: MainViewModel = viewModel()) {
     val context = LocalContext.current
 
+    val uiState by mainViewModel.uiState.collectAsState()
+
+    Repositories(repositories = uiState.repositories) {
+        val intent = Intent(context, DetailActivity::class.java).apply {
+            putExtra("repo", it)
+        }
+        context.startActivity(intent)
+    }
+}
+
+@Composable
+fun Repositories(repositories: List<Repository> = emptyList(), onClick: (Repository) -> Unit) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(repos.size) { index ->
-            val repo = repos[index]
+        items(repositories.size) { index ->
+            val repo = repositories[index]
             RepositoryItem(repo = repo) {
-                Toast.makeText(context, "Clicked on ${repo.name}", Toast.LENGTH_SHORT).show()
-                val intent = Intent(context, DetailActivity::class.java).apply {
-                    putExtra("repo", repo)
-                }
-                context.startActivity(intent)
+                onClick(repo)
             }
         }
     }
@@ -101,6 +103,8 @@ fun RepositoryItem(repo: Repository, onClick: () -> Unit) {
 @Composable
 fun GreetingPreview() {
 
+    val context = LocalContext.current
+
     val mockRepositories = List(20) { i ->
         Repository(
             name = "Repository $i",
@@ -111,6 +115,8 @@ fun GreetingPreview() {
     }
 
     DemoProjectTheme {
-        Repositories(repos = mockRepositories)
+        Repositories(repositories = mockRepositories) {
+            Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT).show()
+        }
     }
 }

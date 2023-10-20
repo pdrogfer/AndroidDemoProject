@@ -3,7 +3,12 @@ package com.pgf.demoproject
 import android.os.Parcel
 import android.os.Parcelable
 
-data class Repository(val name: String, val description: String, val stars: Int, val forks: Int): Parcelable {
+data class Repository(
+    val name: String,
+    val description: String,
+    val stars: Int,
+    val forks: Int): Parcelable {
+
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
