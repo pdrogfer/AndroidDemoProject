@@ -8,8 +8,8 @@ class MainViewModel : ViewModel() {
     private val mockUsers = List(20) { i ->
         User(
             id = i,
-            firstName = "first name",
-            lastName = "last name",
+            firstName = "User $i first name",
+            lastName = "User $i last name",
             avatarUrl = "https://picsum.photos/200"
         )
     }

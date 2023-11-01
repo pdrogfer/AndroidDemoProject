@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     fun navigateToDetail(context: Context, user: User) {
         val intent = Intent(context, DetailActivity::class.java).apply {
-            putExtra("user", user)
+            putExtra(User.KEY, user)
         }
         context.startActivity(intent)
     }

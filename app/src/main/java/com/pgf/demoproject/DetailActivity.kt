@@ -1,56 +1,38 @@
 package com.pgf.demoproject
 
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.annotation.RequiresApi
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
-import com.pgf.demoproject.ui.theme.DemoProjectTheme
+import android.widget.ImageView
+import android.widget.TextView
+import com.bumptech.glide.Glide
 
-class DetailActivity : ComponentActivity() {
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+class DetailActivity : AppCompatActivity() {
+
+    val ivThumbnail: ImageView by lazy {
+        findViewById(R.id.ivThumbnail)
+    }
+    val tvName: TextView by lazy {
+        findViewById(R.id.tvName)
+    }
+    val tvSurname: TextView by lazy {
+        findViewById(R.id.tvSurname)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
+        setContentView(R.layout.activity_user_detail)
 
-        val repo = intent.extras?.getParcelable<Repository>("repo")
+        val user = intent.extras?.getParcelable<User>(User.KEY)
 
-        setContent {
-            DemoProjectTheme {
-                if (repo != null) {
-                    RepositoryDetail(repo = repo)
-                } else {
-                    EmptyDetail()
-                }
-            }
-        }
+        user?.let { setUI(it) }
     }
-}
 
-@Composable
-private fun RepositoryDetail(repo: Repository) {
-    Column {
-        Text(text = repo.name)
-        Text(text = repo.description)
-        Text(text = "Stars: ${repo.stars}")
-        Text(text = "Forks: ${repo.forks}")
-    }
-}
+    private fun setUI(user: User) {
+        Glide.with(ivThumbnail.context)
+            .load(user.avatarUrl)
+            .into(ivThumbnail)
 
-private fun EmptyDetail() {
-    // TODO()
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun RepositoryDetailPreview() {
-    DemoProjectTheme {
-        RepositoryDetail(repo = Repository("Name", "Description", 10, 5))
+        tvName.text = user.firstName
+        tvSurname.text = user.lastName
     }
 }
