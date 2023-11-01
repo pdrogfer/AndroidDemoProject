@@ -1,6 +1,7 @@
 package com.pgf.demoproject
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -67,10 +68,7 @@ fun RepositoriesContainer(mainViewModel: MainViewModel = viewModel()) {
     val uiState by mainViewModel.uiState.collectAsState()
 
     Repositories(repositories = uiState.repositories) {
-        val intent = Intent(context, DetailActivity::class.java).apply {
-            putExtra("repo", it)
-        }
-        context.startActivity(intent)
+        navigateToDetail(context, it)
     }
 }
 
@@ -97,6 +95,13 @@ fun RepositoryItem(repo: Repository, onClick: () -> Unit) {
         }) {
         Text(text = repo.name)
     }
+}
+
+fun navigateToDetail(context: Context, it: Repository) {
+    val intent = Intent(context, DetailActivity::class.java).apply {
+        putExtra("repo", it)
+    }
+    context.startActivity(intent)
 }
 
 @Preview(showBackground = true)

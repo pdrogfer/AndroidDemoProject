@@ -24,6 +24,11 @@ class MainViewModel : ViewModel() {
 
     private fun loadRepositories() {
         _uiState.value = MainActivityState(isLoading = true)
+
+
+
+
+        // TODO: Load repositories from GitHub API
         _uiState.value = MainActivityState(repositories = mockRepositories)
     }
 }

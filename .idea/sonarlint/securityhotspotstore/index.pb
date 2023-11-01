@@ -17,3 +17,7 @@ g
 7app/src/main/java/com/pgf/demoproject/DetailActivity.kt,1/6/16fdd7aa5a39dc2d045d17b757e75237a60da143
 D
 app/build.gradle.kts,d/2/d2a4383452aad84a18429a5844d31330a012a9e6
+j
+:app/src/main/java/com/pgf/demoproject/MainActivityState.kt,1/1/1199851662cdb76a2be03e85b3919377af08d336
+f
+6app/src/main/java/com/pgf/demoproject/MainViewModel.kt,6/d/6db3f94799c80bedb3e8b95cc59ce6d876647b06
