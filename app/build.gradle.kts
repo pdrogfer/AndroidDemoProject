@@ -69,6 +69,10 @@ dependencies {
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
 
+    // Lifecycle Components
+//    implementation("android.arch.lifecycle:extensions:1.1.1")
+
+
 
     // Http Request:
     implementation("com.squareup.retrofit2:retrofit:2.7.1")
@@ -78,4 +82,6 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-jackson:2.7.1")
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
 
+    // Images
+    implementation("com.github.bumptech.glide:glide:4.14.2")
 }

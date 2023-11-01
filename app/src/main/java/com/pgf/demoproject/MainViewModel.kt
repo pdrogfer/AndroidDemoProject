@@ -1,21 +1,21 @@
 package com.pgf.demoproject
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 
 class MainViewModel : ViewModel() {
 
-    private val _uiState = MutableStateFlow(MainActivityState())
-    val uiState = _uiState.asStateFlow()
-
-    private val mockRepositories = List(20) { i ->
-        Repository(
-            name = "Repository $i",
-            description = "Description $i",
-            stars = i * 10,
-            forks = i * 5
+    private val mockUsers = List(20) { i ->
+        User(
+            id = i,
+            firstName = "first name",
+            lastName = "last name",
+            avatarUrl = "https://picsum.photos/200"
         )
+    }
+
+    val userList: MutableLiveData<List<User>> by lazy {
+        MutableLiveData<List<User>>()
     }
 
     init {
@@ -23,12 +23,6 @@ class MainViewModel : ViewModel() {
     }
 
     private fun loadRepositories() {
-        _uiState.value = MainActivityState(isLoading = true)
-
-
-
-
-        // TODO: Load repositories from GitHub API
-        _uiState.value = MainActivityState(repositories = mockRepositories)
+        userList.value = mockUsers
     }
 }
