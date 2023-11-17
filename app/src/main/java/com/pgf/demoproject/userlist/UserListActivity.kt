@@ -24,16 +24,19 @@ class UserListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setUI(this)
+        setUI()
+        setViewModel()
     }
 
-    private fun setUI(context: Context) {
+    private fun setUI() {
         rvUsers.layoutManager = LinearLayoutManager(this)
         rvUsers.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         rvUsers.adapter = UserListAdapter { user ->
-            navigateToDetail(context, user)
+            navigateToDetail(this, user)
         }
+    }
 
+    private fun setViewModel() {
         usersViewModel = UserListViewModel(userRepository = UserRepository())
         usersViewModel.userList.observe(this) { userList ->
             (rvUsers.adapter as UserListAdapter).setUsers(userList)
