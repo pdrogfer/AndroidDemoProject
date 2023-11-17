@@ -25,6 +25,7 @@ class UserListAdapter(val onUserSelected: (user: User) -> Unit) : RecyclerView.A
 
     fun setUsers(userList: List<User>) {
         users = userList as ArrayList<User>
+        notifyDataSetChanged()
     }
 
 }

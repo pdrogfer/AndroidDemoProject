@@ -21,8 +21,8 @@ class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             .load(user.avatarUrl)
             .into(userThumbnail)
             //.preload(50, 50)
-        userFirstName.setText(user.firstName)
-        userLastName.setText(user.lastName)
+        userFirstName.text = user.firstName
+        userLastName.text = user.lastName
 
         userContainer.setOnClickListener {
             onUserSelected(user)
