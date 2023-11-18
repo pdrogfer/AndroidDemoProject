@@ -29,6 +29,10 @@ class UserDetailActivity : AppCompatActivity() {
 
         val userId = intent.extras?.getInt(User.KEY)
 
+        setViewModel(userId)
+    }
+
+    private fun setViewModel(userId: Int?) {
         userDetailViewModel = UserDetailViewModel(
             userRepository = UserRepository(),
             userId = userId ?: 0

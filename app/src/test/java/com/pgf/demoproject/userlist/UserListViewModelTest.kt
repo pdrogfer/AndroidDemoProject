@@ -1,12 +1,10 @@
-package com.pgf.demoproject
+package com.pgf.demoproject.userlist
 
-import android.util.Log
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.pgf.demoproject.userlist.UserListViewModel
+import com.pgf.demoproject.TestUtils
+import com.pgf.demoproject.UserRepository
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
-import io.mockk.mockkStatic
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestDispatcher
@@ -30,25 +28,11 @@ class UserListViewModelTest {
     @get:Rule
     val rule: TestRule = InstantTaskExecutorRule()
 
-    private val mockUsers = List(20) { i ->
-        User(
-            id = i,
-            firstName = "User $i first name",
-            lastName = "User $i last name",
-            avatarUrl = "https://picsum.photos/200"
-        )
-    }
-
     @Before
     fun setUp() {
-        mockkStatic(Log::class)
-        every { Log.i(any(), any()) } returns 0
-        every { Log.d(any(), any()) } returns 0
-        every { Log.e(any(), any()) } returns 0
-
         Dispatchers.setMain(testDispatcher)
 
-        coEvery { userRepository.getUsers() } returns mockUsers
+        coEvery { userRepository.getUsers() } returns TestUtils.mockUserList()
 
         sut = UserListViewModel(userRepository)
     }

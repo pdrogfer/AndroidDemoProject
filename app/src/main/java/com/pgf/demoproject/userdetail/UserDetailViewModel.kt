@@ -6,7 +6,10 @@ import androidx.lifecycle.liveData
 import com.pgf.demoproject.User
 import com.pgf.demoproject.UserRepository
 
-class UserDetailViewModel(private val userRepository: UserRepository, userId: Int): ViewModel() {
+class UserDetailViewModel(
+    private val userRepository: UserRepository,
+    private val userId: Int,
+) : ViewModel() {
 
     // TODO: consider error case of user not found
     val user: LiveData<User> = liveData {
