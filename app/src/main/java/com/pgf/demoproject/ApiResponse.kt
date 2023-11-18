@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName
 
 data class ApiResponseUserList(
     @SerializedName("data")
-    val data: List<ApiResponseUser>,
+    val data: List<ApiUser>,
     @SerializedName("page")
     val page: Int,
     @SerializedName("per_page")
     val perPage: Int,
     @SerializedName("support")
-    val support: ApiResponseSupport,
+    val support: ApiSupport,
     @SerializedName("total")
     val total: Int,
     @SerializedName("total_pages")
@@ -18,6 +18,13 @@ data class ApiResponseUserList(
 )
 
 data class ApiResponseUser(
+    @SerializedName("data")
+    val data: ApiUser,
+    @SerializedName("support")
+    val support: ApiSupport
+)
+
+data class ApiUser(
     @SerializedName("avatar")
     val avatar: String,
     @SerializedName("email")
@@ -30,7 +37,7 @@ data class ApiResponseUser(
     val lastName: String
 )
 
-data class ApiResponseSupport(
+data class ApiSupport(
     @SerializedName("text")
     val text: String,
     @SerializedName("url")

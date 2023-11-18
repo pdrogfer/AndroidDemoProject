@@ -7,8 +7,11 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.pgf.demoproject.R
 import com.pgf.demoproject.User
+import com.pgf.demoproject.UserRepository
 
 class UserDetailActivity : AppCompatActivity() {
+
+    private lateinit var userDetailViewModel: UserDetailViewModel
 
     val ivThumbnail: ImageView by lazy {
         findViewById(R.id.ivThumbnail)
@@ -24,9 +27,17 @@ class UserDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_detail)
 
-        val user = intent.extras?.getParcelable<User>(User.KEY)
+        val userId = intent.extras?.getInt(User.KEY)
 
-        user?.let { setUI(it) }
+        userDetailViewModel = UserDetailViewModel(
+            userRepository = UserRepository(),
+            userId = userId ?: 0
+        )
+
+        // TODO: add loading/loaded/error states
+        userDetailViewModel.user.observe(this) { user ->
+            setUI(user)
+        }
     }
 
     private fun setUI(user: User) {

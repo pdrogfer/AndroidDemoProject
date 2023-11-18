@@ -45,7 +45,7 @@ class UserListActivity : AppCompatActivity() {
 
     private fun navigateToDetail(context: Context, user: User) {
         val intent = Intent(context, UserDetailActivity::class.java).apply {
-            putExtra(User.KEY, user)
+            putExtra(User.KEY, user.id)
         }
         context.startActivity(intent)
     }

@@ -28,7 +28,7 @@ class UserRepository {
         webServiceRetrofit = retrofitInstance.create()
     }
 
-    suspend fun getUsers(): List<User>  = withContext(Dispatchers.IO){
+    suspend fun getUsers(): List<User> {
         // TODO: add pagination
         // TODO: add loading and error cases
         val userList = arrayListOf<User>()
@@ -48,15 +48,23 @@ class UserRepository {
                     }
                 }
 
-        return@withContext userList
+        return userList
     }
 
-    private val mockUsers = List(20) { i ->
-        User(
-            id = i,
-            firstName = "User $i first name",
-            lastName = "User $i last name",
-            avatarUrl = "https://picsum.photos/200"
-        )
+    suspend fun getUser(userId: Int): User? {
+        var user: User? = null
+        val response = webServiceRetrofit.getUser(userId)
+        if (response.isSuccessful) {
+            val apiResponseUser = response.body()
+            user = apiResponseUser?.data?.let { apiUser ->
+                User(
+                    id = apiUser.id,
+                    firstName = apiUser.firstName,
+                    lastName = apiUser.lastName,
+                    avatarUrl = apiUser.avatar
+                )
+            }
+        }
+        return user
     }
 }
