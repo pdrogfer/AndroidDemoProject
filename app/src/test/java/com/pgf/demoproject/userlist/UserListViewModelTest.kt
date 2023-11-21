@@ -2,6 +2,7 @@ package com.pgf.demoproject.userlist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.pgf.demoproject.TestUtils
+import com.pgf.demoproject.User
 import com.pgf.demoproject.UserRepository
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -45,10 +46,9 @@ class UserListViewModelTest {
     @Test
     fun `when getUsers is called then return a list of users`() {
 
-        sut.userList.observeForever {
+        sut.dataState.observeForever {
             assert(it != null)
-            assert(it!!.isNotEmpty())
-
+            assert((it!!.data as List<User>).isNotEmpty())
         }
     }
 }

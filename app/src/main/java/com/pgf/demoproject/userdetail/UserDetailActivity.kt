@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.pgf.demoproject.R
 import com.pgf.demoproject.User
 import com.pgf.demoproject.UserRepository
+import com.pgf.demoproject.ui.LoadStatus
 
 class UserDetailActivity : AppCompatActivity() {
 
@@ -38,9 +40,21 @@ class UserDetailActivity : AppCompatActivity() {
             userId = userId ?: 0
         )
 
-        // TODO: add loading/loaded/error states
-        userDetailViewModel.user.observe(this) { user ->
-            setUI(user)
+        // TODO implement UI for all states
+        userDetailViewModel.dataState.observe(this) { dataState ->
+            when (dataState.state) {
+                LoadStatus.LOADING -> {
+                    // TODO()
+                    Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show()
+                }
+                LoadStatus.SUCCESS -> {
+                    setUI(dataState.data as User)
+                }
+                LoadStatus.ERROR -> {
+                    // TODO()
+                    Toast.makeText(this, dataState.errorMessage, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 

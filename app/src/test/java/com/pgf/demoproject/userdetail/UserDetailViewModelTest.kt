@@ -2,7 +2,6 @@ package com.pgf.demoproject.userdetail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.pgf.demoproject.TestUtils
-import com.pgf.demoproject.User
 import com.pgf.demoproject.UserRepository
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -48,9 +47,9 @@ class UserDetailViewModelTest {
 
         coEvery { userRepository.getUser(any()) } returns TestUtils.mockUserList()[3]
 
-        sut.user.observeForever {
+        sut.dataState.observeForever {
             assert(it != null)
-            assert(it!! == TestUtils.mockUserList()[3])
+            assert(it.data == TestUtils.mockUserList()[3])
         }
     }
 }

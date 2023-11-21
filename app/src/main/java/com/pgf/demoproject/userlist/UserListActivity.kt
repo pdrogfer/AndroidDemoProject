@@ -3,6 +3,7 @@ package com.pgf.demoproject.userlist
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.pgf.demoproject.R
 import com.pgf.demoproject.User
 import com.pgf.demoproject.UserRepository
+import com.pgf.demoproject.ui.LoadStatus
 import com.pgf.demoproject.userdetail.UserDetailActivity
 
 class UserListActivity : AppCompatActivity() {
@@ -36,10 +38,24 @@ class UserListActivity : AppCompatActivity() {
         }
     }
 
+    // TODO implement UI for all states
     private fun setViewModel() {
         usersViewModel = UserListViewModel(userRepository = UserRepository())
-        usersViewModel.userList.observe(this) { userList ->
-            (rvUsers.adapter as UserListAdapter).setUsers(userList)
+        usersViewModel.dataState.observe(this) { dataState ->
+            when (dataState.state) {
+                LoadStatus.LOADING -> {
+                    // TODO()
+                    Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show()
+                }
+                LoadStatus.SUCCESS -> {
+                    (rvUsers.adapter as UserListAdapter).setUsers(dataState.data as List<User>)
+                }
+                LoadStatus.ERROR -> {
+                    // TODO()
+                    Toast.makeText(this, dataState.errorMessage, Toast.LENGTH_SHORT).show()
+                }
+            }
+
         }
     }
 

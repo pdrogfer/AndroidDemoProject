@@ -28,10 +28,10 @@ class UserRepository {
         webServiceRetrofit = retrofitInstance.create()
     }
 
-    suspend fun getUsers(): List<User> {
+    suspend fun getUsers(): List<User>? {
         // TODO: add pagination
         // TODO: add loading and error cases
-        val userList = arrayListOf<User>()
+        var userList: List<User>? = null
         val response = webServiceRetrofit.getUsers(1)
         if (response.isSuccessful) {
                     val apiResponseUserList = response.body()
@@ -44,7 +44,7 @@ class UserRepository {
                         )
                     }
                     users?.let {
-                        userList.addAll(it)
+                        userList = it
                     }
                 }
 
