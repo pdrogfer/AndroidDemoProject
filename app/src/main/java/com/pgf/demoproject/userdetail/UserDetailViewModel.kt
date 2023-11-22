@@ -17,8 +17,8 @@ class UserDetailViewModel(
         emit(DataState(state = LoadStatus.LOADING))
 
         // artificial delay to show Loading state
-        Thread.sleep(2000)
-        
+        // Thread.sleep(2000)
+
         val user = userRepository.getUser(userId = userId)
 
         if (user != null) {

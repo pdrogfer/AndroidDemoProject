@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.pgf.demoproject.TestUtils
 import com.pgf.demoproject.User
 import com.pgf.demoproject.UserRepository
+import com.pgf.demoproject.ui.LoadStatus
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -33,8 +34,6 @@ class UserListViewModelTest {
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
 
-        coEvery { userRepository.getUsers() } returns TestUtils.mockUserList()
-
         sut = UserListViewModel(userRepository)
     }
 
@@ -44,11 +43,25 @@ class UserListViewModelTest {
     }
 
     @Test
-    fun `when getUsers is called then return a list of users`() {
+    fun `get users emits success state with list of users`() {
 
-        sut.dataState.observeForever {
-            assert(it != null)
-            assert((it!!.data as List<User>).isNotEmpty())
-        }
+        coEvery { userRepository.getUsers() } returns TestUtils.mockUserList()
+
+        sut.dataState.observeForever {}
+
+        assert(sut.dataState.value?.state == LoadStatus.SUCCESS)
+        assert((sut.dataState.value?.data as List<User>).isNotEmpty())
+    }
+
+    @Test
+    fun `get users emits error state with error message`() {
+
+        coEvery { userRepository.getUsers() } returns null
+
+        sut.dataState.observeForever {}
+
+        assert(sut.dataState.value?.state == LoadStatus.ERROR)
+        assert(sut.dataState.value?.errorMessage == "Could not get User List")
+        assert(sut.dataState.value?.data.isNullOrEmpty())
     }
 }

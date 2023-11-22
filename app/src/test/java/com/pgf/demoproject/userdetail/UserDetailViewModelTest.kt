@@ -3,6 +3,7 @@ package com.pgf.demoproject.userdetail
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.pgf.demoproject.TestUtils
 import com.pgf.demoproject.UserRepository
+import com.pgf.demoproject.ui.LoadStatus
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -43,13 +44,25 @@ class UserDetailViewModelTest {
     }
 
     @Test
-    fun `get user with valid id`() {
+    fun `get user with valid id emits success state`() {
 
         coEvery { userRepository.getUser(any()) } returns TestUtils.mockUserList()[3]
 
-        sut.dataState.observeForever {
-            assert(it != null)
-            assert(it.data == TestUtils.mockUserList()[3])
-        }
+        sut.dataState.observeForever {}
+
+        assert(sut.dataState.value?.state == LoadStatus.SUCCESS)
+        assert(sut.dataState.value?.data == TestUtils.mockUserList()[3])
+    }
+
+    @Test
+    fun `get user with invalid id emits error state`() {
+
+        coEvery { userRepository.getUser(any()) } returns null
+
+        sut.dataState.observeForever {}
+
+        assert(sut.dataState.value?.data == null)
+        assert(sut.dataState.value?.state == LoadStatus.ERROR)
+        assert(sut.dataState.value?.errorMessage == "Could not get User with id=0")
     }
 }

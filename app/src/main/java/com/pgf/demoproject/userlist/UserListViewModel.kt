@@ -14,7 +14,7 @@ class UserListViewModel(private val userRepository: UserRepository) : ViewModel(
         emit(DataState(state = LoadStatus.LOADING))
 
         // artificial delay to show Loading state
-        Thread.sleep(2000)
+        // Thread.sleep(2000)
 
         val userList = userRepository.getUsers()
 
