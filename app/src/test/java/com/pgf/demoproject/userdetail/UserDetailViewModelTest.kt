@@ -6,6 +6,7 @@ import com.pgf.demoproject.UserRepository
 import com.pgf.demoproject.ui.LoadStatus
 import io.mockk.coEvery
 import io.mockk.mockk
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -50,8 +51,8 @@ class UserDetailViewModelTest {
 
         sut.dataState.observeForever {}
 
-        assert(sut.dataState.value?.state == LoadStatus.SUCCESS)
-        assert(sut.dataState.value?.data == TestUtils.mockUserList()[3])
+        assertEquals(sut.dataState.value?.state, LoadStatus.SUCCESS)
+        assertEquals(sut.dataState.value?.data, TestUtils.mockUserList()[3])
     }
 
     @Test
@@ -61,8 +62,8 @@ class UserDetailViewModelTest {
 
         sut.dataState.observeForever {}
 
+        assertEquals(sut.dataState.value?.state, LoadStatus.ERROR)
+        assertEquals(sut.dataState.value?.errorMessage, "Could not get User with id=0")
         assert(sut.dataState.value?.data == null)
-        assert(sut.dataState.value?.state == LoadStatus.ERROR)
-        assert(sut.dataState.value?.errorMessage == "Could not get User with id=0")
     }
 }

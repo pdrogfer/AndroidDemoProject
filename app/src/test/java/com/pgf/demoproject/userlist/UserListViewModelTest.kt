@@ -7,6 +7,7 @@ import com.pgf.demoproject.UserRepository
 import com.pgf.demoproject.ui.LoadStatus
 import io.mockk.coEvery
 import io.mockk.mockk
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestDispatcher
@@ -49,7 +50,7 @@ class UserListViewModelTest {
 
         sut.dataState.observeForever {}
 
-        assert(sut.dataState.value?.state == LoadStatus.SUCCESS)
+        assertEquals(sut.dataState.value?.state, LoadStatus.SUCCESS)
         assert((sut.dataState.value?.data as List<User>).isNotEmpty())
     }
 
@@ -60,8 +61,8 @@ class UserListViewModelTest {
 
         sut.dataState.observeForever {}
 
-        assert(sut.dataState.value?.state == LoadStatus.ERROR)
-        assert(sut.dataState.value?.errorMessage == "Could not get User List")
+        assertEquals(sut.dataState.value?.state, LoadStatus.ERROR)
+        assertEquals(sut.dataState.value?.errorMessage, "Could not get User List")
         assert(sut.dataState.value?.data.isNullOrEmpty())
     }
 }
