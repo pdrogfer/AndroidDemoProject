@@ -3,6 +3,7 @@ package com.pgf.demoproject
 import android.util.Log
 import com.pgf.demoproject.userlist.WebServiceRetrofit
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -29,8 +30,8 @@ class UserRepository {
     }
 
     suspend fun getUsers(): List<User>? {
+
         // TODO: add pagination
-        // TODO: add loading and error cases
         var userList: List<User>? = null
         val response = webServiceRetrofit.getUsers(1)
         if (response.isSuccessful) {
@@ -47,7 +48,10 @@ class UserRepository {
                         userList = it
                     }
                 }
+        // Artificial delay to show Loading state
+        delay(2000)
 
+        // Return null to show error state
         return userList
     }
 

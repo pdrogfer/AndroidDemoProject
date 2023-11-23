@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Demo Project</string>
+    <string name="error_message">Default Error Message</string>
 </resources>

@@ -13,15 +13,13 @@ class UserListViewModel(private val userRepository: UserRepository) : ViewModel(
     val dataState: LiveData<DataState<List<User>>> = liveData {
         emit(DataState(state = LoadStatus.LOADING))
 
-        // artificial delay to show Loading state
-        // Thread.sleep(2000)
-
         val userList = userRepository.getUsers()
 
         if (userList != null) {
             emit(DataState(state = LoadStatus.SUCCESS, data = userList))
         } else {
-            emit(DataState(state = LoadStatus.ERROR, errorMessage = "Could not get User List"))
+            emit(DataState(state = LoadStatus.ERROR, errorMessage = "An error happened. Could not get users list. " +
+                    "Please try again later"))
         }
 
     }
