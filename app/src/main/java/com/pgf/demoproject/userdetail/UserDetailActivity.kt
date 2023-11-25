@@ -9,6 +9,7 @@ import androidx.appcompat.widget.LinearLayoutCompat
 import com.bumptech.glide.Glide
 import com.pgf.demoproject.R
 import com.pgf.demoproject.User
+import com.pgf.demoproject.UserRepository
 import com.pgf.demoproject.UserRepositoryImpl
 import com.pgf.demoproject.ui.DataState
 import com.pgf.demoproject.ui.LoadStatus
@@ -16,7 +17,7 @@ import org.koin.android.ext.android.inject
 
 class UserDetailActivity : AppCompatActivity() {
 
-    private val userRepository: UserRepositoryImpl by inject()
+    private val userRepository: UserRepository by inject()
     private lateinit var userDetailViewModel: UserDetailViewModel
 
     private val containerUserDetail: LinearLayoutCompat by lazy { findViewById(R.id.container_userdetail) }

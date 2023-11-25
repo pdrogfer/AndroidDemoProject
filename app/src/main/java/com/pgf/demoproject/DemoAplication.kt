@@ -8,7 +8,7 @@ import org.koin.dsl.module
 class DemoAplication: Application() {
 
     val appModule = module {
-        single { UserRepositoryImpl() }
+        single<UserRepository> { UserRepositoryImpl() }
     }
 
     override fun onCreate() {

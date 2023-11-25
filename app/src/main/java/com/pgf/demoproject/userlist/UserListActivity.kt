@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pgf.demoproject.R
 import com.pgf.demoproject.User
+import com.pgf.demoproject.UserRepository
 import com.pgf.demoproject.UserRepositoryImpl
 import com.pgf.demoproject.ui.DataState
 import com.pgf.demoproject.ui.LoadStatus
@@ -19,7 +20,7 @@ import org.koin.android.ext.android.inject
 
 class UserListActivity : AppCompatActivity() {
 
-    private val userRepository: UserRepositoryImpl by inject()
+    private val userRepository: UserRepository by inject()
     private lateinit var usersViewModel: UserListViewModel
 
     private val rvUsers: RecyclerView by lazy { findViewById(R.id.rv_users) }

@@ -3,6 +3,7 @@ Sample Android App project. It contains both a List and Detail view of users. Us
 - MVVM Arquitecture.
 - LiveData in View and ViewModel layers.
 - Coroutines in Data and Domain layers.
+- Koin for dependency injection.
 - Retrofit to get data from https://reqres.in/.
 - Glide to load images.
 - Unit tests for ViewModels.
