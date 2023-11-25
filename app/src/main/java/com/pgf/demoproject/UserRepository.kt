@@ -49,7 +49,7 @@ class UserRepository {
                     }
                 }
         // Artificial delay to show Loading state
-        delay(2000)
+        delay(1000)
 
         // Return null to show error state
         return userList
@@ -69,6 +69,11 @@ class UserRepository {
                 )
             }
         }
+
+        // artificial delay to show Loading state
+        Thread.sleep(1000)
+
+        // Return null to show error state
         return user
     }
 }

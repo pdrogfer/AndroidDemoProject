@@ -16,15 +16,13 @@ class UserDetailViewModel(
     val dataState: LiveData<DataState<User>> = liveData {
         emit(DataState(state = LoadStatus.LOADING))
 
-        // artificial delay to show Loading state
-        // Thread.sleep(2000)
-
         val user = userRepository.getUser(userId = userId)
 
         if (user != null) {
             emit(DataState(state = LoadStatus.SUCCESS, data = user))
         } else {
-            emit(DataState(state = LoadStatus.ERROR, errorMessage = "Could not get User with id=$userId"))
+            emit(DataState(state = LoadStatus.ERROR, errorMessage = "An error happened. Could not get user data. " +
+                    "Please try again later."))
         }
     }
 }
