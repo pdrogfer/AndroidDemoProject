@@ -2,7 +2,7 @@ package com.pgf.demoproject.userdetail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.pgf.demoproject.TestUtils
-import com.pgf.demoproject.UserRepository
+import com.pgf.demoproject.UserRepositoryImpl
 import com.pgf.demoproject.ui.LoadStatus
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -21,7 +21,7 @@ import org.junit.rules.TestRule
 @OptIn(ExperimentalCoroutinesApi::class)
 class UserDetailViewModelTest {
 
-    private val userRepository: UserRepository = mockk()
+    private val userRepository: UserRepositoryImpl = mockk()
     private val testDispatcher = UnconfinedTestDispatcher()
 
     private lateinit var sut: UserDetailViewModel

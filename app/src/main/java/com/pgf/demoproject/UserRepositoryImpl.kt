@@ -1,16 +1,17 @@
 package com.pgf.demoproject
 
-import android.util.Log
 import com.pgf.demoproject.userlist.WebServiceRetrofit
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
-class UserRepository {
+interface UserRepository {
+    suspend fun getUsers(): List<User>?
+    suspend fun getUser(userId: Int): User?
+}
+
+class UserRepositoryImpl : UserRepository {
 
     private val TAG = "WebRepository"
     val URL_BASE = "https://reqres.in/api/"
@@ -29,7 +30,7 @@ class UserRepository {
         webServiceRetrofit = retrofitInstance.create()
     }
 
-    suspend fun getUsers(): List<User>? {
+    override suspend fun getUsers(): List<User>? {
 
         // TODO: add pagination
         var userList: List<User>? = null
@@ -55,7 +56,7 @@ class UserRepository {
         return userList
     }
 
-    suspend fun getUser(userId: Int): User? {
+    override suspend fun getUser(userId: Int): User? {
         var user: User? = null
         val response = webServiceRetrofit.getUser(userId)
         if (response.isSuccessful) {

@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.pgf.demoproject.User
-import com.pgf.demoproject.UserRepository
+import com.pgf.demoproject.UserRepositoryImpl
 import com.pgf.demoproject.ui.LoadStatus
 import com.pgf.demoproject.ui.DataState
 
 class UserDetailViewModel(
-    private val userRepository: UserRepository,
+    private val userRepository: UserRepositoryImpl,
     private val userId: Int,
 ) : ViewModel() {
 

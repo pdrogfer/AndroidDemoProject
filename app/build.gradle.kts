@@ -76,4 +76,9 @@ dependencies {
 
     // Images
     implementation("com.github.bumptech.glide:glide:4.14.2")
+
+    // Koin for Android
+    implementation("io.insert-koin:koin-android:3.5.0")
+    testImplementation("io.insert-koin:koin-test:3.5.0")
+    testImplementation("io.insert-koin:koin-test-junit5:3.5.0")
 }

@@ -5,16 +5,18 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.widget.LinearLayoutCompat
 import com.bumptech.glide.Glide
 import com.pgf.demoproject.R
 import com.pgf.demoproject.User
-import com.pgf.demoproject.UserRepository
+import com.pgf.demoproject.UserRepositoryImpl
+import com.pgf.demoproject.ui.DataState
 import com.pgf.demoproject.ui.LoadStatus
+import org.koin.android.ext.android.inject
 
 class UserDetailActivity : AppCompatActivity() {
 
+    private val userRepository: UserRepositoryImpl by inject()
     private lateinit var userDetailViewModel: UserDetailViewModel
 
     private val containerUserDetail: LinearLayoutCompat by lazy { findViewById(R.id.container_userdetail) }
@@ -35,33 +37,37 @@ class UserDetailActivity : AppCompatActivity() {
 
     private fun setViewModel(userId: Int?) {
         userDetailViewModel = UserDetailViewModel(
-            userRepository = UserRepository(),
+            userRepository = userRepository,
             userId = userId ?: 0
         )
 
-        // TODO implement UI for all states
         userDetailViewModel.dataState.observe(this) { dataState ->
-            when (dataState.state) {
-                LoadStatus.LOADING -> {
-                    progress.visibility = ProgressBar.VISIBLE
-                    textViewError.visibility = TextView.GONE
-                    containerUserDetail.visibility = LinearLayoutCompat.GONE
-                }
-                LoadStatus.SUCCESS -> {
-                    setUI(dataState.data as User)
-                    progress.visibility = ProgressBar.GONE
-                    textViewError.visibility = TextView.GONE
-                    containerUserDetail.visibility = LinearLayoutCompat.VISIBLE
-                }
-                LoadStatus.ERROR -> {
-                    textViewError.text = dataState.errorMessage
-                    progress.visibility = ProgressBar.GONE
-                    textViewError.visibility = TextView.VISIBLE
-                    containerUserDetail.visibility = LinearLayoutCompat.GONE
-                }
-            }
+            loadState(dataState)
         }
     }
+
+    private fun loadState(dataState: DataState<User>) =
+        when (dataState.state) {
+            LoadStatus.LOADING -> {
+                progress.visibility = ProgressBar.VISIBLE
+                textViewError.visibility = TextView.GONE
+                containerUserDetail.visibility = LinearLayoutCompat.GONE
+            }
+
+            LoadStatus.SUCCESS -> {
+                setUI(dataState.data as User)
+                progress.visibility = ProgressBar.GONE
+                textViewError.visibility = TextView.GONE
+                containerUserDetail.visibility = LinearLayoutCompat.VISIBLE
+            }
+
+            LoadStatus.ERROR -> {
+                textViewError.text = dataState.errorMessage
+                progress.visibility = ProgressBar.GONE
+                textViewError.visibility = TextView.VISIBLE
+                containerUserDetail.visibility = LinearLayoutCompat.GONE
+            }
+        }
 
     private fun setUI(user: User) {
         Glide.with(ivThumbnail.context)

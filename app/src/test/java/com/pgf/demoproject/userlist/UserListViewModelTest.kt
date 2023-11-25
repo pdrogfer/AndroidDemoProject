@@ -3,7 +3,7 @@ package com.pgf.demoproject.userlist
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.pgf.demoproject.TestUtils
 import com.pgf.demoproject.User
-import com.pgf.demoproject.UserRepository
+import com.pgf.demoproject.UserRepositoryImpl
 import com.pgf.demoproject.ui.LoadStatus
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -23,7 +23,7 @@ import org.junit.rules.TestRule
 @OptIn(ExperimentalCoroutinesApi::class)
 class UserListViewModelTest {
 
-    private val userRepository: UserRepository = mockk()
+    private val userRepository: UserRepositoryImpl = mockk()
     private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
 
     private lateinit var sut : UserListViewModel

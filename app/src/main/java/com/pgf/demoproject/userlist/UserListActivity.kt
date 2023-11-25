@@ -11,12 +11,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pgf.demoproject.R
 import com.pgf.demoproject.User
-import com.pgf.demoproject.UserRepository
+import com.pgf.demoproject.UserRepositoryImpl
+import com.pgf.demoproject.ui.DataState
 import com.pgf.demoproject.ui.LoadStatus
 import com.pgf.demoproject.userdetail.UserDetailActivity
+import org.koin.android.ext.android.inject
 
 class UserListActivity : AppCompatActivity() {
 
+    private val userRepository: UserRepositoryImpl by inject()
     private lateinit var usersViewModel: UserListViewModel
 
     private val rvUsers: RecyclerView by lazy { findViewById(R.id.rv_users) }
@@ -40,31 +43,35 @@ class UserListActivity : AppCompatActivity() {
     }
 
     private fun setViewModel() {
-        usersViewModel = UserListViewModel(userRepository = UserRepository())
+        usersViewModel = UserListViewModel(userRepository = userRepository)
         usersViewModel.dataState.observe(this) { dataState ->
-            when (dataState.state) {
-                LoadStatus.LOADING -> {
-                    rvUsers.visibility = RecyclerView.GONE
-                    textViewError.visibility = TextView.GONE
-                    progress.visibility = ProgressBar.VISIBLE
-                }
-
-                LoadStatus.SUCCESS -> {
-                    (rvUsers.adapter as UserListAdapter).setUsers(dataState.data as List<User>)
-                    rvUsers.visibility = RecyclerView.VISIBLE
-                    progress.visibility = ProgressBar.GONE
-                    textViewError.visibility = TextView.GONE
-                }
-
-                LoadStatus.ERROR -> {
-                    textViewError.text = dataState.errorMessage
-                    textViewError.visibility = TextView.VISIBLE
-                    progress.visibility = ProgressBar.GONE
-                    rvUsers.visibility = RecyclerView.GONE
-                }
-            }
+            loadState(dataState)
         }
     }
+
+    private fun loadState(dataState: DataState<List<User>>) =
+        when (dataState.state) {
+            LoadStatus.LOADING -> {
+                rvUsers.visibility = RecyclerView.GONE
+                textViewError.visibility = TextView.GONE
+                progress.visibility = ProgressBar.VISIBLE
+            }
+
+            LoadStatus.SUCCESS -> {
+                (rvUsers.adapter as UserListAdapter).setUsers(dataState.data as List<User>)
+                rvUsers.visibility = RecyclerView.VISIBLE
+                progress.visibility = ProgressBar.GONE
+                textViewError.visibility = TextView.GONE
+            }
+
+            LoadStatus.ERROR -> {
+                textViewError.text = dataState.errorMessage
+                textViewError.visibility = TextView.VISIBLE
+                progress.visibility = ProgressBar.GONE
+                rvUsers.visibility = RecyclerView.GONE
+            }
+        }
+
 
     private fun navigateToDetail(context: Context, user: User) {
         val intent = Intent(context, UserDetailActivity::class.java).apply {
