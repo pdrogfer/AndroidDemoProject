@@ -1,0 +1,12 @@
+name: Push
+
+on:
+  push:
+    branches: ["develop", "master"]
+  workflow_dispatch:
+
+jobs:
+  name: Build
+  runs-on: ubuntu-latest
+  steps:
+    - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
