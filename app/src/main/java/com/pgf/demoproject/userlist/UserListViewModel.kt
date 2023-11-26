@@ -22,6 +22,6 @@ class UserListViewModel(private val userRepository: UserRepository) : ViewModel(
             emit(DataState(state = LoadStatus.ERROR, errorMessage = "An error happened. Could not get users list. " +
                     "Please try again later"))
         }
-        
+
     }
 }
