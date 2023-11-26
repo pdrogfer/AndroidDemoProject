@@ -63,7 +63,7 @@ class UserDetailViewModelTest {
         sut.dataState.observeForever {}
 
         assertEquals(sut.dataState.value?.state, LoadStatus.ERROR)
-        assertEquals(sut.dataState.value?.errorMessage, "Could not get User with id=0")
+        assertEquals(sut.dataState.value?.errorMessage, "An error happened. Could not get user data. Please try again later.")
         assert(sut.dataState.value?.data == null)
     }
 }

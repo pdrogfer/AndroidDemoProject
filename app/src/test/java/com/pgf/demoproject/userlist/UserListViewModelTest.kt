@@ -62,7 +62,7 @@ class UserListViewModelTest {
         sut.dataState.observeForever {}
 
         assertEquals(sut.dataState.value?.state, LoadStatus.ERROR)
-        assertEquals(sut.dataState.value?.errorMessage, "Could not get User List")
+        assertEquals(sut.dataState.value?.errorMessage, "An error happened. Could not get users list. Please try again later")
         assert(sut.dataState.value?.data.isNullOrEmpty())
     }
 }
