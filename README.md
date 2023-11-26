@@ -6,10 +6,8 @@ Sample Android App project. It contains both a List and Detail view of users. Us
 - Koin for dependency injection.
 - Retrofit to get data from https://reqres.in/.
 - Glide to load images.
-- Unit tests for ViewModels.
-
-
-
+- Unit Tests for ViewModels.
+- GitHub Actions for CI. Runs Unit Tests when pull requests on **main**.
 
 NOTES: 
 - Ready to run. No need for Token/Key for the API requests.
